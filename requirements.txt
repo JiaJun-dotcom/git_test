@@ -1,0 +1,15 @@
+1. Define a List of Stock Symbols:
+Prepare a list of stock symbols for which you want to fetch data.
+
+2. Fetch Data Using Alpha Vantage API:
+- Use the Alpha Vantage API to fetch data for each stock symbol, including OHLC prices, volume, and any other indicators like moving averages or RSI.
+-- Can include things like sentiments, financial news analysis or other factors that can affect the decision to invest.
+
+3. Create a Pandas DataFrame:
+Organize the fetched data into a Pandas DataFrame where each row corresponds to a stock symbol and each column corresponds to a specific indicator.
+
+4. Formulate hypothesis for machine to predict price according to the criterias.
+Prediction can be predicting stock price next for EACH stock, return stock price, thereby see whether to buy or sell based on a variety of factors eg prev day closing price, trend ure now in.
+(cant really get a definite decision as to whether to invest or not, too many like factors to consider eg buyer risk tolerance etc, what we can do best is just predict for them upcoming stock price)
+
+5. Decide on model to train and what algorithm to use(experiment ard until u get the one with least error diff)
