@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width initial-scale=1.0">
+        <title> STOCK ANALYSIS RESULT </title>
+        <link rel="stylesheet" href="./project.css">
+        <script defer src="./scripts.js"></script>  <!--defer means to defer execution of the scripts.js code until the whole results.html file has been parsed-->
+    </head>
+    <body> 
+        <div class="container">
+            <h1>Stock Analyzer Results</h1>
+            <div class="results">
+                <h2>Analysis for: <span id="stock-symbol"></span></h2>
+                <p id="stock-analysis">Loading analysis...</p>
+            </div>
+            <form action="results.html" method="GET">
+                <label for="stock-symbol">Enter Another Stock Symbol:</label>
+                <input type="text" id="stock-symbol-input" name="stock-symbol" required>
+                <button type="submit">Analyze</button>
+            </form>
+        </div>
+    </body>
+</html>

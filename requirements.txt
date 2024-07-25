@@ -1,5 +1,18 @@
+project/
+├── app.py                  # Flask application
+├── backend.py              # Backend logic including AI model
+├── model.py                # AI model and related functions
+├── templates/
+│   ├── index.html          # HTML template for the home page
+│   └── results.html        # HTML template for displaying results
+└── static/
+    ├── styles.css          # CSS for styling
+    └── scripts.js          # JavaScript for interactivity
+^^PROJECT SUMMARY
+
 1. Define a List of Stock Symbols:
-Prepare a list of stock symbols for which you want to fetch data.
+Prepare a list of stock symbols for which you want to fetch data.(done using ftp and filezilla, then converting it to pd dataframe before obtaining symbols respectively)
+#Symbols obtained as array just pass into the x_train in the dataset to be created for training the ML model.
 
 2. Fetch Data Using Alpha Vantage API:
 - Use the Alpha Vantage API to fetch data for each stock symbol, including OHLC prices, volume, and any other indicators like moving averages or RSI.
@@ -13,3 +26,55 @@ Prediction can be predicting stock price next for EACH stock, return stock price
 (cant really get a definite decision as to whether to invest or not, too many like factors to consider eg buyer risk tolerance etc, what we can do best is just predict for them upcoming stock price)
 
 5. Decide on model to train and what algorithm to use(experiment ard until u get the one with least error diff)
+
+MODEL SELECTION:
+- Our model would have to be effective in high-dimensional spaces given the amount of features and technical indicators we have in our dataset.
+- Our data is non-linear(financial data).
+Stock prices are inherently time series data, so models have to account for
+TEMPORAL DEPENDENCIES and identify any seasonal/long-term trends as well.
+^^ For analysing time-series data, can use GARCH modelto account for volatility as well:
+GARCH(p,q) model that capture behaviour of volatility clustering(periods of high volatility followed by low volatility)
+by capturing past variances of the time series data correlation to past returns(percentage change in closing price for that change in variance value) using a formula devised to relate them.
+This can allow model to better predict upcoming price of stock given the variance and volatility of the past historical data vs the returns
+^^p represents past, q represents current, usually use GARCH(1,1) which means
+one lag of past squared returns to one lag of past squared variance(1 day ago data) to predict current volatility and thereby better predict current(next day) closing stock price(returns).
+
+-- SIMPLE models like Linear regression are easier to interpret but COMPLEX
+models like LSTM and Deep learning can capture more complex patterns
+
+-Can try:
+SVM
+Linear regression
+Random forests
+(LOOK AT F1-SCORE to assess precision of model)
+*** LSTMs(deep learning model, neural network)
+-For LSTMs we need to create sliding windows of data with maximum timestep being the maximum number of days of various datas u need
+-Use one-hot encoding to create embeddings for each stock symbol(so that each window of data can be categorised and understood by model to belong to tht particular stock symbol)
+One-hot encoding is a technique used in machine learning and data processing to convert categorical variables into a binary (0 or 1) representation. 
+Each category is represented by a binary vector, where only one element is "hot" (set to 1) and the rest are "cold" (set to 0). This method is particularly useful when dealing with categorical data that needs to be used in algorithms that require numerical input.
+
+Naive Bayes not recommended since it updates probability of something given a condition and assumes features independent of each other(volume isnt independent of price)
+Same goes for Logistic regression
+
+FRONTEND:
+HTML FILE:
+Results.html: The user enters a stock symbol in the text input field.
+The user clicks the "Analyze" button. The form data is sent to results.html as a query parameter via the GET method. For example, if the user enters "AAPL", the browser navigates to results.html?stock-symbol=AAPL. 
+On results.html, JavaScript (or server-side code) can read the stock-symbol parameter from the URL to determine which stock symbol the user is interested in analyzing.
+The page can then fetch and display the analysis for that stock symbol.
+In your JavaScript file, u need a getURLparameter function for this purpose of reading the stock symbol parameter
+then from there fetch and display analysis for the stock symbol.
+
+With a Flask Application:
+Flask Web Server:
+Flask is a lightweight web framework for Python that lets you create web applications quickly and easily.
+You can define routes (URLs) in Flask that correspond to different functions in your Python code.
+HTML Interface:
+Your HTML files provide the user interface where users can enter data (like stock symbols) and view results.
+Forms in HTML can send data to Flask routes using HTTP methods (GET or POST).
+Processing Requests:
+When a user submits a form, the data is sent to a Flask route.
+The Flask route can process this data using your Python code (e.g., analyzing stock data, predicting prices).
+Returning Results:
+After processing the data, Flask can return results to the client (user's browser), which can be done by rendering a new HTML page or returning data in a format like JSON.
+JavaScript in your HTML can then display these results dynamically.
